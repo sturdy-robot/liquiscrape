@@ -19,12 +19,9 @@ def get_requests(url):
 def get_names(tables, teams):
     for table in tables:
         player_roster = []
-        
+        tbody = table.find('tbody')
+        team_name = tbody.find('th').text.strip()
         for tr in table.find_all('tr'):
-            th = tr.find('th')
-            logging.debug('Table:')
-            logging.debug(th)
-            
             tds = tr.find_all('td')
             if not tds:
                 continue
@@ -40,27 +37,27 @@ def get_names(tables, teams):
                 'real_name': real_name
             }
 
-            player_roster.append(player_info)
+            player_roster.append(player_info.copy())
 
-            team_info = {
-                'team_name': th,
-                'roster': player_roster
-            }
+        team_info = {
+            'team_name': team_name,
+            'roster': player_roster
+        }
 
-            teams.append(team_info)
+        teams.append(team_info.copy())
 
 
 def write_to_file(names):
     logging.info('Started writing to file')
-    with open('teams.json', 'w', encoding='utf-8') as fp:
+    with open('teams_main.json', 'w', encoding='utf-8') as fp:
         json.dump(names, fp, sort_keys=True, indent=4)
     
     logging.info('Write successful')
 
 
 def write_namestxt(names):
-    logging.info('Writing to teams.txt')
-    with open('teams.txt', 'w', encoding='utf-8') as fp:
+    logging.info('Writing to teams_file.txt')
+    with open('teams_file.txt', 'w', encoding='utf-8') as fp:
         for name in names:
             fp.write(name['team_name'] + '\n')
     

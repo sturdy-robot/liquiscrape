@@ -20,11 +20,11 @@ There is some confusion in these files.
 
 Run `main.py` to get the players.
 
-`main_team.py` doesn't work quite right.
+`main_team.py` extracts team data from each table, along with players in the current roster with their real names.
 
-`attempt.py` uses the files generated in `main.py` to get the `teams.json`.
+`attempt.py` uses the files generated in `main.py` to generate the `teams.json`.
 
-`try_teams.py` is a new way to get the teams from one of the liquipedia pages.
+`try_teams.py` is an alternative way to get team names from one of the liquipedia pages, it only gets team names, but the advantage is that it gets their region as well.
 
 # License
 
