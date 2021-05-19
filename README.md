@@ -14,6 +14,18 @@ All of this data can be really useful in eSports Manager.
 
 At one point I plan on introducing more data to each file, making it more compatible with eSM, and eSM will be able to generate a lot of things from these files.
 
+## Running
+
+There is some confusion in these files.
+
+Run `main.py` to get the players.
+
+`main_team.py` doesn't work quite right.
+
+`attempt.py` uses the files generated in `main.py` to get the `teams.json`.
+
+`try_teams.py` is a new way to get the teams from one of the liquipedia pages.
+
 # License
 
 ```
