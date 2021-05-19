@@ -15,6 +15,7 @@ def get_requests(url):
         logging.info('No table found')
     return tables
 
+
 def get_names(tables, teams):
     for table in tables:
         player_roster = []
@@ -56,6 +57,7 @@ def write_to_file(names):
     
     logging.info('Write successful')
 
+
 def write_namestxt(names):
     logging.info('Writing to teams.txt')
     with open('teams.txt', 'w', encoding='utf-8') as fp:
@@ -63,6 +65,7 @@ def write_namestxt(names):
             fp.write(name['team_name'] + '\n')
     
     logging.info('Write successful')
+
 
 def main():
     logging.basicConfig(filename='webscraping.log', encoding='utf-8', level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
@@ -85,6 +88,7 @@ def main():
     
     write_to_file(teams)
     write_namestxt(teams)
+
 
 if __name__ == '__main__':
     main()
