@@ -1,4 +1,5 @@
 import json
+import uuid
 import requests
 import logging
 from bs4 import BeautifulSoup
@@ -21,15 +22,18 @@ def get_names(tables, names):
             tds = tr.find_all('td')
             if not tds:
                 continue
-            pl_id, real_name, team, _ = [td.text.strip() for td in tds[:5]]
+            nationality = tds[0].find('span', class_='flag').find('a').attrs['title']
+            player_name, real_name, team, _ = [td.text.strip() for td in tds[:5]]
             
             player_info = {
-                'player_id': pl_id,
+                'id': uuid.uuid4().hex,
+                'player': player_name,
+                'nationality': nationality,
                 'real_name': real_name,
                 'team': team
             }
 
-            logging.debug(pl_id)
+            logging.debug(player_name)
             logging.debug(real_name)
             logging.debug(team)
 
@@ -60,7 +64,8 @@ def main():
     urls = [
         'https://liquipedia.net/leagueoflegends/Portal:Players/Korea',
         'https://liquipedia.net/leagueoflegends/Portal:Players/China',
-        'https://liquipedia.net/leagueoflegends/Portal:Players/Americas',
+        'https://liquipedia.net/leagueoflegends/Portal:Players/South_America',
+        'https://liquipedia.net/leagueoflegends/Portal:Players/North_America',
         'https://liquipedia.net/leagueoflegends/Portal:Players/Europe/West',
         'https://liquipedia.net/leagueoflegends/Portal:Players/Europe/Nordic',
         'https://liquipedia.net/leagueoflegends/Portal:Players/Europe/South',
@@ -78,7 +83,7 @@ def main():
     
     sort_players_by_team(names)
     write_to_file(names)
-    write_namestxt(names)
+    # write_namestxt(names)
 
 if __name__ == '__main__':
     main()

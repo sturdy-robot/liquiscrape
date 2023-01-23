@@ -1,7 +1,9 @@
 import json
 import requests
+import re
 import logging
 from bs4 import BeautifulSoup
+
 
 
 def get_requests(url):
@@ -33,7 +35,7 @@ def get_names(tables, teams):
             logging.debug(real_name)
 
             player_info = {
-                'player_id': pl_id,
+                'player': pl_id,
                 'real_name': real_name
             }
 
@@ -68,23 +70,33 @@ def main():
     logging.basicConfig(filename='webscraping.log', encoding='utf-8', level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
     logging.info('Started')
     urls = [
+        'https://liquipedia.net/leagueoflegends/Portal:Teams/Brazil',
+        'https://liquipedia.net/leagueoflegends/Portal:Teams/Japan'
         'https://liquipedia.net/leagueoflegends/Portal:Teams/Korea',
         'https://liquipedia.net/leagueoflegends/Portal:Teams/China',
-        'https://liquipedia.net/leagueoflegends/Portal:Teams/Americas',
+        'https://liquipedia.net/leagueoflegends/Portal:Teams/Latin_America',
+        'https://liquipedia.net/leagueoflegends/Portal:Teams/North_America',
         'https://liquipedia.net/leagueoflegends/Portal:Teams/Europe',
-        'https://liquipedia.net/leagueoflegends/Portal:Teams/Asia',
-        'https://liquipedia.net/leagueoflegends/Portal:Teams/Oceania',
-        'https://liquipedia.net/leagueoflegends/Portal:Teams/Africa',
-        'https://liquipedia.net/leagueoflegends/Portal:Teams/CIS',
+        'https://liquipedia.net/leagueoflegends/Portal:Teams/Pacific',
+        'https://liquipedia.net/leagueoflegends/Portal:Teams/Vietnam',
     ]
 
-    teams = []
+    r = []
     for url in urls:
+        pattern = re.compile(r'https://liquipedia.net/leagueoflegends/Portal:Teams/(\w+)')
+        region = re.match(pattern, url).group(1)
+        if region == "Korea":
+            region = "South Korea"
+        reg = {
+            "region": region,
+            "teams": []
+        }
         regions = get_requests(url)
-        get_names(regions, teams)
+        get_names(regions, reg["teams"])
+        r.append(reg)
     
-    write_to_file(teams)
-    write_namestxt(teams)
+    write_to_file(r)
+    # write_namestxt(teams)
 
 
 if __name__ == '__main__':
