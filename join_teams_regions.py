@@ -13,10 +13,7 @@ def compare_data(regions, teams):
     for region in regions:
         teams_data = []
         for r_team in region['teams']:
-            for team in teams:
-                if r_team == team['team_name']:
-                    teams_data.append(team)
-
+            teams_data.extend(team for team in teams if r_team == team['team_name'])
         reg = {
             'region': region['name'],
             'teams': teams_data
