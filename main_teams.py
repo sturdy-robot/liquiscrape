@@ -84,7 +84,7 @@ def main():
     r = []
     for url in urls:
         pattern = re.compile(r'https://liquipedia.net/leagueoflegends/Portal:Teams/(\w+)')
-        region = re.match(pattern, url).group(1)
+        region = re.match(pattern, url)[1]
         if region == "Korea":
             region = "South Korea"
         reg = {
@@ -94,7 +94,7 @@ def main():
         regions = get_requests(url)
         get_names(regions, reg["teams"])
         r.append(reg)
-    
+
     write_to_file(r)
     # write_namestxt(teams)
 
